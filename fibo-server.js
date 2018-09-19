@@ -3,10 +3,10 @@ var fibo = require('./lib/fibo');
 
 var server = http.createServer(function (req, res) {
 
-    res.writeHead(200, { "Content-Type": "text/html" });
+    
 
     if (req.url.match(/^(\/fibonacci\/)(\d+)$/)) {
-
+        res.writeHead(200, { "Content-Type": "text/html" });
         let requested_num = fibo.getUrlNum(req.url);
         if (requested_num > 10000) {
             res.end(`
@@ -22,19 +22,8 @@ var server = http.createServer(function (req, res) {
                 </html>
             `);
         } else {
-            res.end(`
-                <!DOCTYPE html>
-                <html>
-                    <head>
-                        <title>Fibonacci Response</title>
-                    </head>
-                    <body>
-                        <h1>Fibonacci response</h1>
-                        <p>${fibo.fiboSeries(requested_num)}</p>
-                        <p>${req.method}</p>
-                    </body>
-                </html>
-            `);
+            res.writeHead(200, { "Content-Type": "text/json" });
+            res.end(JSON.stringify(fibo.fiboSeries(requested_num)));
         }
 
     } else {
