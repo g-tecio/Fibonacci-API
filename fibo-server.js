@@ -8,20 +8,34 @@ var server = http.createServer(function (req, res) {
     if (req.url.match(/^(\/fibonacci\/)(\d+)$/)) {
 
         let requested_num = fibo.getUrlNum(req.url);
-
-        res.end(`
-            <!DOCTYPE html>
-            <html>
-                <head>
-                    <title>Fibonacci Response</title>
-                </head>
-                <body>
-                    <h1>Fibonacci response</h1>
-                    <p>${fibo.fiboSeries(requested_num)}</p>
-                    <p>${req.method}</p>
-                </body>
-            </html>
-        `);
+        if (requested_num > 10000) {
+            res.end(`
+                <!DOCTYPE html>
+                <html>
+                    <head>
+                        <title>Fibonacci Response</title>
+                    </head>
+                    <body>
+                        <h1>Fibonacci response</h1>
+                        <p>Number limit exceed</p>
+                    </body>
+                </html>
+            `);
+        } else {
+            res.end(`
+                <!DOCTYPE html>
+                <html>
+                    <head>
+                        <title>Fibonacci Response</title>
+                    </head>
+                    <body>
+                        <h1>Fibonacci response</h1>
+                        <p>${fibo.fiboSeries(requested_num)}</p>
+                        <p>${req.method}</p>
+                    </body>
+                </html>
+            `);
+        }
 
     } else {
         res.end(`
